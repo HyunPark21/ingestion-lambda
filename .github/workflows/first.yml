@@ -1,7 +1,30 @@
-name: Our First Workflow
-on: push
+name: Invoke Lambda
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # 수동 실행도 가능
+
 jobs:
-  echo:
+  invoke:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
-      - run: echo 'Hello, Github Actions!'
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::702197978379:role/git_hub_to_execute_lamda
+          aws-region: us-east-1
+
+      - name: Invoke Lambda
+        run: |
+          aws lambda invoke \
+            --function-name hello_world \
+            --payload '{"key": "value"}' \
+            --cli-binary-format raw-in-base64-out \
+            response.json
+
+          cat response.json

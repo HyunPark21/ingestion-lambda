@@ -1,30 +1,29 @@
-name: Invoke Lambda
+name: Deploy to ECR
 
 on:
   push:
-    branches: [main]
-  workflow_dispatch:  # 수동 실행도 가능
+    branches: [ "main" ]
 
 jobs:
-  invoke:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
 
     steps:
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::702197978379:role/git_hub_to_execute_lamda
-          aws-region: us-east-1
+    - name: Checkout
+      uses: actions/checkout@v3
 
-      - name: Invoke Lambda
-        run: |
-          aws lambda invoke \
-            --function-name hello_world \
-            --payload '{"key": "value"}' \
-            --cli-binary-format raw-in-base64-out \
-            response.json
+    - name: Configure AWS
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        role-to-assume: arn:aws:iam::702197978379:role/git_hub_to_execute_lamda
+        aws-region: us-east-1
 
-          cat response.json
+
+    - name: Login to ECR
+      uses: aws-actions/amazon-ecr-login@v1
+
+    - name: Build and Push
+      run: |
+        docker build -t trend-app .
+        docker tag trend-app:latest ${{ secrets.ECR_URI }}:latest
+        docker push ${{ secrets.ECR_URI }}:latest

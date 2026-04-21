@@ -17,16 +17,26 @@ def fetch_news():
 
 def fetch_reddit():
     url = "https://www.reddit.com/r/news/hot.json?limit=20"
-    headers = {"User-Agent": REDDIT_USER_AGENT}
+    headers = {
+        "User-Agent": "trend-app/1.0"
+    }
 
     res = requests.get(url, headers=headers)
-    data = res.json()
 
-    posts = [
+    if res.status_code != 200:
+        print("Reddit failed:", res.status_code, res.text[:100])
+        return []
+
+    try:
+        data = res.json()
+    except Exception:
+        print("Invalid JSON:", res.text[:100])
+        return []
+
+    return [
         p["data"]["title"]
         for p in data["data"]["children"]
     ]
-    return posts
 
 
 def fetch_google_trends():
@@ -42,7 +52,7 @@ def collect_all():
     return {
         "timestamp": datetime.utcnow().isoformat(),
         "news": fetch_news(),
-        "reddit": fetch_reddit(),
-        "trends": fetch_google_trends(),
+        "reddit": fetch_reddit()#,
+        #"trends": fetch_google_trends(),
     }
 print(collect_all())

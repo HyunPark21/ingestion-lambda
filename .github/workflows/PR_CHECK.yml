@@ -15,5 +15,6 @@ jobs:
       - name: Build Docker image
         run: docker build -t trend-app .
 
-      - name: Run container
-        run: docker run --rm trend-app
+      - name: Run handler locally
+        run: |
+          python -c "from lambda.handler import lambda_handler; print(lambda_handler({}, None))"

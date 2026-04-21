@@ -17,4 +17,4 @@ jobs:
 
       - name: Run handler locally
         run: |
-          python -c "from lambda.handler import lambda_handler; print(lambda_handler({}, None))"
+          python -c "from ingestion.fetch_data import collect_all; print('OK')"

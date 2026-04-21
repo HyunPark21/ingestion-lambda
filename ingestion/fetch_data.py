@@ -42,7 +42,7 @@ def collect_all():
     return {
         "timestamp": datetime.utcnow().isoformat(),
         "news": fetch_news(),
-        "reddit": fetch_reddit(),
-        "trends": fetch_google_trends(),
+        "reddit": fetch_reddit()#,
+        #"trends": fetch_google_trends(),
     }
 print(collect_all())

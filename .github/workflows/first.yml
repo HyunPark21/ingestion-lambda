@@ -30,3 +30,8 @@ jobs:
         docker build -t trend-app .
         docker tag trend-app:latest ${{ secrets.ECR_URI }}:latest
         docker push ${{ secrets.ECR_URI }}:latest
+
+    - name: Run tests
+      run: |
+          echo "run validations"
+          exit 1   # <- 이거 실패하면 PR block

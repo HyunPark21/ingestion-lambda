@@ -28,8 +28,8 @@ jobs:
     - name: Build and Push
       run: |
         docker build -t trend-app .
-        docker tag trend-app:latest ${{ secrets.ECR_URI }}:latest
-        docker push ${{ secrets.ECR_URI }}:latest
+        docker tag trend-app:latest 702197978379.dkr.ecr.us-east-1.amazonaws.com/hello_world_docker:latest
+        docker push 702197978379.dkr.ecr.us-east-1.amazonaws.com/hello_world_docker:latest
 
     - name: Run tests
       run: |

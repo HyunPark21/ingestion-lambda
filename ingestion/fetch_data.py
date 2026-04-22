@@ -23,14 +23,15 @@ def fetch_reddit():
 
     res = requests.get(url, headers=headers)
 
+    print("status:", res.status_code)
+    print("text preview:", res.text[:200])
+
     if res.status_code != 200:
-        print("Reddit failed:", res.status_code, res.text[:100])
         return []
 
     try:
         data = res.json()
     except Exception:
-        print("Invalid JSON:", res.text[:100])
         return []
 
     return [

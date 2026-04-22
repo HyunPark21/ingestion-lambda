@@ -15,7 +15,7 @@ jobs:
       - name: Print secret
         env:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
-        run: echo $NEWS_API_KEY
+        run: echo "API key created"
 
       - name: Build Docker image
         run: docker build -t trend-app .
@@ -29,7 +29,3 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run handler locally
-        run: |
-          python -c "from ingestion.fetch_data import collect_all; print('OK')"

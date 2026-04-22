@@ -2,12 +2,13 @@ import requests
 import os
 from datetime import datetime
 from pytrends.request import TrendReq
+import feedparser
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 REDDIT_USER_AGENT = "trend-app/0.1"
 
 def fetch_news():
-    url = f"https://newsapi.org/v2/top-headlines?country=us&apiKey={NEWS_API_KEY}"
+    url = f"https://newsapi.org/v2/everything&sortBy=popularity?country=us&apiKey={NEWS_API_KEY}"
     res = requests.get(url)
     data = res.json()
 
@@ -52,8 +53,8 @@ def fetch_google_trends():
 def collect_all():
     return {
         "timestamp": datetime.utcnow().isoformat(),
-        "news": fetch_news(),
-        "reddit": fetch_reddit()#,
+        "news": fetch_news()#,
+        #"reddit": fetch_reddit()#,
         #"trends": fetch_google_trends(),
     }
-print(fetch_reddit())
+print(collect_all())

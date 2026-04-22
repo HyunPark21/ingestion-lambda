@@ -54,8 +54,8 @@ def collect_all():
         "timestamp": datetime.utcnow().isoformat(),
         "news-business": fetch_news('business'),
         "news-technology": fetch_news('technology'),
-        "news-technology": fetch_news('science'),
-        "news-technology": fetch_news('health')
+        "news-science": fetch_news('science'),
+        "news-health": fetch_news('health')
         #"reddit": fetch_reddit()#,
         #"trends": fetch_google_trends(),
     }

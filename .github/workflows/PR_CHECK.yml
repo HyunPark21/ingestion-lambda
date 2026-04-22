@@ -15,7 +15,7 @@ jobs:
       - name: Print secret
         run: echo "API KEY is set"
         env:
-          OPENAI_API_KEY: ${{ secrets.NEWS_API_KEY }}
+          NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
 
       - name: Build Docker image
         run: docker build -t trend-app .

@@ -7,7 +7,7 @@ NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 REDDIT_USER_AGENT = "trend-app/0.1"
 
 def fetch_news(topic):
-    url = f"GET https://newsapi.org/v2/top-headlines?country=us&category={topic}&pageSize=100&apiKey={NEWS_API_KEY}"
+    url = f"https://newsapi.org/v2/top-headlines?country=us&category={topic}&pageSize=100&apiKey={NEWS_API_KEY}"
     res = requests.get(url)
     data = res.json()
 

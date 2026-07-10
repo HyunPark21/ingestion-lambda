@@ -1,0 +1,29 @@
+create schema if not exists raw;
+
+create table if not exists raw.s3_news_payloads (
+    id bigserial primary key,
+    s3_bucket text not null,
+    s3_key text not null,
+    s3_last_modified timestamptz,
+    s3_etag text,
+    payload jsonb not null,
+    payload_timestamp timestamptz,
+    ingested_at timestamptz not null default now(),
+    unique (s3_bucket, s3_key, s3_etag)
+);
+
+create table if not exists raw.s3_ingestion_logs (
+    id bigserial primary key,
+    pipeline_name text not null,
+    source text not null,
+    s3_bucket text,
+    s3_prefix text,
+    status text not null,
+    started_at timestamptz not null default now(),
+    finished_at timestamptz,
+    inserted_count integer not null default 0,
+    skipped_count integer not null default 0,
+    failed_count integer not null default 0,
+    error_message text,
+    metadata jsonb not null default '{}'::jsonb
+);
